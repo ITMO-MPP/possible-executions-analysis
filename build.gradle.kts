@@ -1,27 +1,32 @@
 import org.jetbrains.kotlin.gradle.plugin.*
 
 plugins {
-    kotlin("jvm") version "1.4.0"
+    kotlin("jvm") version "1.7.10"
     application
 }
 
 group = "ru.ifmo.mpp"
-version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
 }
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
 }
 
-sourceSets["main"].withConvention(KotlinSourceSet::class) {
-    kotlin.srcDir("src")
+sourceSets.main {
+    java.srcDir("src")
 }
 
 application {
-    mainClassName = "PossibleExecutionsVerifierKt"
+    mainClass.set("PossibleExecutionsVerifierKt")
 }
 
 tasks["build"].dependsOn("run")
