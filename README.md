@@ -7,18 +7,20 @@
 shared int a = 0, b = 0
 
 == Thread P: ==
-while true:
+while true: // execute lines 1-4 in a loop
   1: a = 1
-  2: while b != 0: pass // do nothing
-  3: pass // critical section, do nothing
+  2: while b != 0: pass // do nothing, loop back to line 2
+  3: pass // critical section, do nothing, go to line 4 next
   4: a = 0
+  // continues loop execution at line 1  
 
 == Thread Q: ==
-while true:
+while true: // execute lines 1-3 in a loop
   1: b = 1
   2: if a == 0: break // to line 4
   3: b = 0
-4: stop // outside of loop
+  // continues loop execution at line 1
+4: stop // note: this line is outside of the loop
 ```
 
 Чтения и записи разделяемых переменных *a* и *b* происходят атомарно.
@@ -40,7 +42,8 @@ while true:
 Обратите внимание, что поток **P** никогда не останавливается, поэтому в этой системе не будет конечного
 состояния. Из любого состояния есть, как минимум, переход в котором шаг делает поток **P**. 
 
-Самостоятельно проанализируйте полученные результаты: 
+Самостоятельно проанализируйте полученные результаты. Результаты анализа не надо никуда записывать. 
+Эти вопросы призваны вам помочь лучше понять материал дальнейших теоретических лекций. 
 
 * Так как каждый поток может быть в одном из 4-х состояний, а переменные *a* и *b* в одном из 2-х состояний, 
   то теоретически возможны 4 x 4 x 2 x 2 = 64 состояния. Сколько различных достижимых состояний у вас получилось?
